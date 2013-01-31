@@ -34,5 +34,5 @@ def main():
     httpd.serve_forever()
 
 if __name__ == "__main__":
-    pid = "/var/run/collect-web.pif"
+    pid = "/var/run/collect-web.pid"
     daemonize.start(main, pid, debug=True)
