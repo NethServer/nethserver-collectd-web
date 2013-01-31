@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# chkconfig: - 91 35
+# description: Starts and stops the collectd web interface
+#
+# pidfile: /var/run/collect-web.pid
+# config:  /etc/collect/collection.conf
+
+
+# Source function library.
+if [ -f /etc/init.d/functions ] ; then
+  . /etc/init.d/functions
+elif [ -f /etc/rc.d/init.d/functions ] ; then
+  . /etc/rc.d/init.d/functions
+else
+  exit 1
+fi
+
+RETVAL=0
+PID=/var/run/collect-web.pid
+PROGRAM=collectd-web
+
+start() {
+	echo -n $"Starting $PROGRAM services: "
+        /usr/bin/python /opt/collectd-web/daemonize.py 
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/collect-web || \
+	   RETVAL=1
+	return $RETVAL
+}	
+
+stop() {
+	echo -n $"Shutting down $PROGRAM services: "
+	killproc nmbd
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/collect-web
+	return $RETVAL
+}	
+
+restart() {
+	stop
+	start
+}
+
+rhstatus() {
+        RETVAL=1
+        if [ -f $PID ]; then
+            RETVAL=0
+        fi
+	return $RETVAL
+
+}
+	
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  status)
+  	status -p $PID $PROGRAM
+#rhstatus
+	;;
+  condrestart)
+  	[ -f /var/lock/subsys/nmb ] && restart || :
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart|reload|status|condrestart}"
+	exit 2
+esac
+
+exit $?
