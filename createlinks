@@ -36,15 +36,6 @@ event_services($event, 'collectd-web' => 'restart');
 
 
 #--------------------------------------------------
-# actions for nethserver-collectd-web-save event
-#--------------------------------------------------
-
-$event = "nethserver-collectd-web-save";
-
-event_services($event, 'collectd-web' => 'restart');
-
-
-#--------------------------------------------------
 # actions for nethserver-collectd-web-uninstall event
 #--------------------------------------------------
 
