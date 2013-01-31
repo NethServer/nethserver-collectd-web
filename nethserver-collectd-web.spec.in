@@ -1,0 +1,46 @@
+Summary: NethServer python web interface to collectd
+Name: nethserver-collectd-web
+Version: @@VERSION@@
+Release: @@RELEASE@@
+License: GPL
+Source: %{name}-%{version}.tar.gz
+BuildArch: noarch
+URL: https://dev.nethesis.it/projects/%{name}
+
+BuildRequires: nethserver-devtools
+
+AutoReq: no
+Requires: nethserver-collectd
+
+%description
+NethServer python web interface to collectd
+See: http://collectdweb.appspot.com
+
+%prep
+%setup
+
+%post
+source /etc/nethserver/rpm_hook_functions
+event_queue add %{name}-update
+
+%preun
+source /etc/nethserver/rpm_hook_functions
+signal_event %{name}-uninstall
+
+%build
+perl createlinks
+
+%install
+rm -rf $RPM_BUILD_ROOT
+(cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
+
+%{genfilelist} $RPM_BUILD_ROOT > e-smith-%{version}-filelist
+echo "%doc COPYING"          >> e-smith-%{version}-filelist
+
+%clean 
+rm -rf $RPM_BUILD_ROOT
+
+%files -f e-smith-%{version}-filelist
+%defattr(-,root,root)
+
+%changelog
