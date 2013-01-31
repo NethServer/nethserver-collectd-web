@@ -18,11 +18,11 @@ fi
 
 RETVAL=0
 PID=/var/run/collectd-web.pid
-PROGRAM=collectd-web
+PROGRAM=/opt/collectd-web/collectd-web.py
 
 start() {
-	echo -n $"Starting $PROGRAM services: "
-        /usr/bin/python /opt/collectd-web/daemonize.py 
+	echo -n $"Starting collectd-web services: "
+        $PROGRAM
 	RETVAL=$?
 	echo
 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/collect-web || \
@@ -31,8 +31,8 @@ start() {
 }	
 
 stop() {
-	echo -n $"Shutting down $PROGRAM services: "
-	killproc nmbd
+	echo -n $"Shutting down collectd-web services: "
+	killproc -p $PID $PROGRAM
 	RETVAL=$?
 	echo
 	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/collect-web
@@ -43,16 +43,6 @@ restart() {
 	stop
 	start
 }
-
-rhstatus() {
-        RETVAL=1
-        if [ -f $PID ]; then
-            RETVAL=0
-        fi
-	return $RETVAL
-
-}
-	
 
 case "$1" in
   start)
