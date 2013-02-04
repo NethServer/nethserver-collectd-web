@@ -11,6 +11,7 @@ BuildRequires: nethserver-devtools
 
 AutoReq: no
 Requires: nethserver-collectd
+Requires: perl-CGI, perl-RRD-Simple
 
 %description
 NethServer python web interface to collectd
