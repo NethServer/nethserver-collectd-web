@@ -230,7 +230,7 @@ function create_graph_list(timespan, graphs) {
         if ($('#graph-caching-checkbox').attr('checked')) {
             $tpl += '<img class="gc-img toload" src="media/images/graph-load.png" title="' + final_url + '"/></li>';
         } else {
-            $tpl += '<img class="gc-img" src="' + final_url + '"/></li>';
+            $tpl += '<img class="gc-img" src="/' + final_url + '"/></li>';
         }
         $tpl += '</li>';
     }
