@@ -978,9 +978,9 @@ sub load_graph_definitions {
     my $HalfBlueGreen = '89B3C9';
     $GraphDefs = {
         apache_bytes => [
-            'DEF:min_raw={file}:count:MIN',
-            'DEF:avg_raw={file}:count:AVERAGE',
-            'DEF:max_raw={file}:count:MAX',
+            'DEF:min_raw={file}:value:MIN',
+            'DEF:avg_raw={file}:value:AVERAGE',
+            'DEF:max_raw={file}:value:MAX',
             'CDEF:min=min_raw,8,*',
             'CDEF:avg=avg_raw,8,*',
             'CDEF:max=max_raw,8,*',
@@ -998,9 +998,9 @@ sub load_graph_definitions {
             'GPRINT:avg_sum:LAST:(ca. %5.1lf%sB Total)\l'
         ],
         apache_connections => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Connections",
@@ -1010,9 +1010,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_idle_workers => [
-            'DEF:min={file}:count:MIN',
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',
+            'DEF:min={file}:value:MIN',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Idle Workers",
@@ -1022,9 +1022,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_requests => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",           
             "LINE1:avg#$FullBlue:Requests/s",
@@ -1045,6 +1045,19 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,',
             'GPRINT:avg:LAST:%6.2lf Last'
         ],
+	conntrack => [
+	    '-v', 'Entries',
+	    'DEF:min={file}:entropy:MIN',   
+	    'DEF:avg={file}:entropy:AVERAGE',
+	    'DEF:max={file}:entropy:MAX',   
+	    "AREA:max#$HalfBlue",
+	    "AREA:min#$Canvas",           
+	    "LINE1:avg#$FullBlue:Count",
+	    'GPRINT:min:MIN:%6.2lf Min,', 
+	    'GPRINT:avg:AVERAGE:%6.2lf Avg,',
+	    'GPRINT:max:MAX:%6.2lf Max,',
+	    'GPRINT:avg:LAST:%6.2lf Last'
+	],
         cache_result => [
             'DEF:min={file}:value:MIN',   'DEF:avg={file}:value:AVERAGE',
             'DEF:max={file}:value:MAX',   "AREA:max#$HalfBlue",
@@ -1053,9 +1066,9 @@ sub load_graph_definitions {
             'GPRINT:max:MAX:%6.2lf Max,', 'GPRINT:avg:LAST:%6.2lf Last'
         ],
         apache_scoreboard => [
-            'DEF:min={file}:count:MIN',   
-            'DEF:avg={file}:count:AVERAGE',
-            'DEF:max={file}:count:MAX',   
+            'DEF:min={file}:value:MIN',   
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:max={file}:value:MAX',   
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Processes",
@@ -1110,6 +1123,40 @@ sub load_graph_definitions {
             'DEF:avg={file}:value:AVERAGE',
             'DEF:min={file}:value:MIN',
             'DEF:max={file}:value:MAX',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Percent",
+            'GPRINT:min:MIN:%6.2lf%% Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf%% Avg,',
+            'GPRINT:max:MAX:%6.2lf%% Max,',
+            'GPRINT:avg:LAST:%6.2lf%% Last\l'
+        ],
+       virt_vcpu => [
+            '-v', 'CPU load (%)',
+            '-X', '0',
+            'DEF:avg_1={file}:value:AVERAGE',
+            'DEF:min_1={file}:value:MIN',
+            'DEF:max_1={file}:value:MAX',
+            'CDEF:avg=avg_1,10000000,/',
+            'CDEF:min=min_1,10000000,/',
+            'CDEF:max=max_1,10000000,/',
+            "AREA:max#$HalfBlue",
+            "AREA:min#$Canvas",
+            "LINE1:avg#$FullBlue:Percent",
+            'GPRINT:min:MIN:%6.2lf%% Min,',
+            'GPRINT:avg:AVERAGE:%6.2lf%% Avg,',
+            'GPRINT:max:MAX:%6.2lf%% Max,',
+            'GPRINT:avg:LAST:%6.2lf%% Last\l'
+        ],
+        virt_cpu_total => [
+            '-v', 'CPU load (%)',
+            '-X', '0',
+            'DEF:avg_1={file}:value:AVERAGE',
+            'DEF:min_1={file}:value:MIN',
+            'DEF:max_1={file}:value:MAX',
+            'CDEF:avg=avg_1,10000000,/',
+            'CDEF:min=min_1,10000000,/',
+            'CDEF:max=max_1,10000000,/',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Percent",
@@ -1464,9 +1511,9 @@ sub load_graph_definitions {
         entropy => [
             '-v',
             'Bits',
-            'DEF:avg={file}:entropy:AVERAGE',
-            'DEF:min={file}:entropy:MIN',
-            'DEF:max={file}:entropy:MAX',
+            'DEF:avg={file}:value:AVERAGE',
+            'DEF:min={file}:value:MIN',
+            'DEF:max={file}:value:MAX',
             "AREA:max#$HalfBlue",
             "AREA:min#$Canvas",
             "LINE1:avg#$FullBlue:Bits",
@@ -1498,9 +1545,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%4.1lf Last\l'
         ],
         frequency_offset => [    # NTPd
-            'DEF:ppm_avg={file}:ppm:AVERAGE',
-            'DEF:ppm_min={file}:ppm:MIN',
-            'DEF:ppm_max={file}:ppm:MAX',
+            'DEF:ppm_avg={file}:value:AVERAGE',
+            'DEF:ppm_min={file}:value:MIN',
+            'DEF:ppm_max={file}:value:MAX',
             "AREA:ppm_max#$HalfBlue",
             "AREA:ppm_min#$Canvas",
             "LINE1:ppm_avg#$FullBlue:{inst}",
@@ -2741,9 +2788,9 @@ sub load_graph_definitions {
             'GPRINT:avg:LAST:%5.1lf%s Last\l'
         ],
         time_offset => [    # NTPd
-            'DEF:s_avg={file}:seconds:AVERAGE',
-            'DEF:s_min={file}:seconds:MIN',
-            'DEF:s_max={file}:seconds:MAX',
+            'DEF:s_avg={file}:value:AVERAGE',
+            'DEF:s_min={file}:value:MIN',
+            'DEF:s_max={file}:value:MAX',
             "AREA:s_max#$HalfBlue",
             "AREA:s_min#$Canvas",
             "LINE1:s_avg#$FullBlue:{inst}",
@@ -2823,9 +2870,9 @@ sub load_graph_definitions {
         users => [
             '-v',
             'Users',
-            'DEF:users_avg={file}:users:AVERAGE',
-            'DEF:users_min={file}:users:MIN',
-            'DEF:users_max={file}:users:MAX',
+            'DEF:users_avg={file}:value:AVERAGE',
+            'DEF:users_min={file}:value:MIN',
+            'DEF:users_max={file}:value:MAX',
             "AREA:users_max#$HalfBlue",
             "AREA:users_min#$Canvas",
             "LINE1:users_avg#$FullBlue:Users",
@@ -2998,6 +3045,7 @@ sub load_graph_definitions {
     $GraphDefs->{'vmpage_io-memory'}    = $GraphDefs->{'vmpage_io'};
     $GraphDefs->{'vmpage_io-swap'}      = $GraphDefs->{'vmpage_io'};
     $MetaGraphDefs->{'cpu'}             = \&meta_graph_cpu;
+    $MetaGraphDefs->{'df_complex'}      = \&meta_graph_df_complex;
     $MetaGraphDefs->{'dns_qtype'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'dns_rcode'}       = \&meta_graph_dns;
     $MetaGraphDefs->{'if_rx_errors'}    = \&meta_graph_if_rx_errors;
@@ -3158,6 +3206,55 @@ sub meta_graph_cpu {
     }    # for (@$type_instances)
     return ( meta_graph_generic_stack( $opts, $sources ) );
 }    # meta_graph_cpu
+
+sub meta_graph_df_complex {
+    confess("Wrong number of arguments") if ( @_ != 5 );
+    my $host            = shift;
+    my $plugin          = shift;
+    my $plugin_instance = shift;
+    my $type            = shift;
+    my $type_instances  = shift;
+    my $opts            = {};
+    my $sources         = [];
+    $opts->{'title'} =
+        "$host/$plugin"
+        . ( defined($plugin_instance) ? "-$plugin_instance" : '' )
+        . "/$type";
+    $opts->{'number_format'} = '%5.1lf%s';
+    $opts->{'rrd_opts'} = [ '-b', '1024', '-v', 'Bytes' ];
+    my @files = ();
+    $opts->{'colors'} = {
+        'free'      => '00e000',
+        'used'      => 'ff0000',
+        'reserved'  => '0000ff'
+    };
+
+    _custom_sort_arrayref( $type_instances, [qw(free used reserved)] );
+
+    for (@$type_instances) {
+        my $inst  = $_;
+        my $file  = '';
+        my $title = $opts->{'title'};
+        for (@DataDirs) {
+            if ( -e "$_/$title-$inst.rrd" ) {
+                $file = "$_/$title-$inst.rrd";
+                last;
+            }
+        }
+
+    confess ("No file found for $title") if ($file eq '');
+
+    push (@$sources,
+      {
+	name => $inst,
+	file => $file
+      }
+    );
+  } # for (@$type_instances)
+
+  return (meta_graph_generic_stack ($opts, $sources));
+} # meta_graph_df_complex
+
 
 sub meta_graph_dns
 {
