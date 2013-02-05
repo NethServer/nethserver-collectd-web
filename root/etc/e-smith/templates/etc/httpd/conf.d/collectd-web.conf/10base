@@ -4,11 +4,6 @@
     use esmith::util;
     my $confdb = esmith::ConfigDB->open;
     my $collectd = $confdb->get('collectd-web') or die "No collectd-web db entry found\n";
-    my $status = $collectd->prop('status') || 'disabled';
-    
-    # Disable template output for uninstall process
-    return "" unless ($status eq 'enabled'); 
-
     my $alias = $collectd->prop('alias') || esmith::util::genRandomHash();
 
     $OUT = "

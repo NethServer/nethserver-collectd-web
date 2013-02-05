@@ -29,6 +29,7 @@ use esmith::Build::CreateLinks  qw(:all);
 my $event = "nethserver-collectd-web-update";
 
 event_actions($event,'initialize-default-databases' => '00');
+templates2events("/etc/httpd/conf.d/collectd-web.conf",  $event);
 event_services($event, 'httpd' => 'reload');
 
 
@@ -38,6 +39,7 @@ event_services($event, 'httpd' => 'reload');
 
 $event = "nethserver-collectd-web-uninstall";
 
+event_actions($event,'nethserver-collectd-web-uninstall' => '02');
 event_services($event, 'httpd' => 'reload');
 
 exit;
