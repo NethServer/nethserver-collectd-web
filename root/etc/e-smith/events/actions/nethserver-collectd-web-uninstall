@@ -20,4 +20,4 @@
 #
 
 use strict;
-unlink("/etc/httpd/conf.d/collectd-web.conf");
+system("/bin/rm -f /etc/httpd/conf.d/collectd-web.conf &>/dev/null");
