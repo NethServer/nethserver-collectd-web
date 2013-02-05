@@ -1,0 +1,28 @@
+{
+    # no collectd-web variable prefilled because the minus character
+    use esmith::ConfigDB;
+    use esmith::util;
+    my $confdb = esmith::ConfigDB->open;
+    my $collectd = $confdb->get('collectd-web') or die "No collectd-web db entry found\n";
+    my $status = $collectd->prop('status') || 'disabled';
+    
+    # Disable template output for uninstall process
+    return "" unless ($status eq 'enabled'); 
+
+    my $alias = $collectd->prop('alias') || esmith::util::genRandomHash();
+
+    $OUT = "
+<IfModule !cgi_module>
+    LoadModule cgi_module modules/mod_cgi.so
+</IfModule>
+    
+Alias /$alias /var/www/html/collectd-web
+
+<Directory /var/www/html/collectd-web>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Order deny,allow
+    Allow from $localAccess
+</Directory>
+";
+}
