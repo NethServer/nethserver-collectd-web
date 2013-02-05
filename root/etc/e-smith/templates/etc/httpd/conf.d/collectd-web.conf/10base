@@ -4,7 +4,14 @@
     use esmith::util;
     my $confdb = esmith::ConfigDB->open;
     my $collectd = $confdb->get('collectd-web') or die "No collectd-web db entry found\n";
-    my $alias = $collectd->prop('alias') or die "No hashed alias for url generation\n";
+    my $alias = $collectd->prop('alias') || "";
+    
+    # initialize alias if needed
+    if ($alias eq "") {
+        $alias = esmith::util::genRandomHash();
+        $confdb->set_prop('collectd-web','alias',$alias);
+    }
+
 
     $OUT = "
 <IfModule !cgi_module>
