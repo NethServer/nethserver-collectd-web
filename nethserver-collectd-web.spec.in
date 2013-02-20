@@ -10,7 +10,7 @@ URL: https://dev.nethesis.it/projects/%{name}
 BuildRequires: nethserver-devtools
 
 AutoReq: no
-Requires: nethserver-collectd
+Requires: nethserver-collectd, nethserver-httpd
 Requires: perl-CGI, perl-RRD-Simple
 
 %description
