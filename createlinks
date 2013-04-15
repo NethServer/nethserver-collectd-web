@@ -33,13 +33,4 @@ templates2events("/etc/httpd/conf.d/collectd-web.conf",  $event);
 event_services($event, 'httpd' => 'reload');
 
 
-#--------------------------------------------------
-# actions for nethserver-collectd-web-uninstall event
-#--------------------------------------------------
-
-$event = "nethserver-collectd-web-uninstall";
-
-event_actions($event,'nethserver-collectd-web-uninstall' => '02');
-event_services($event, 'httpd' => 'reload');
-
 exit;
