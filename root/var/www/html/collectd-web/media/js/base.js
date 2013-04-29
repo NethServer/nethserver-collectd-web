@@ -143,11 +143,6 @@ function build_url(original_url, new_params) {
     $.extend(params, new_params);
     var url = original_url.split('?')[0] + '?';
 
-    // The backend returns absolute URLs
-    if (url.charAt(0) == '/') {
-        url = url.substring(1, url.length);
-    }
-
     for (key in params) {
         if (params[key] != '' || params[key] == 0) {
         url += key + '=' + params[key] + ';';
@@ -230,7 +225,7 @@ function create_graph_list(timespan, graphs) {
         if ($('#graph-caching-checkbox').attr('checked')) {
             $tpl += '<img class="gc-img toload" src="media/images/graph-load.png" title="' + final_url + '"/></li>';
         } else {
-            $tpl += '<img class="gc-img" src="/' + final_url + '"/></li>';
+            $tpl += '<img class="gc-img" src="' + final_url + '"/></li>';
         }
         $tpl += '</li>';
     }
