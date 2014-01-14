@@ -36,10 +36,9 @@ class Collectd extends \Nethgui\Module\AbstractModule implements \NethServer\Mod
     public function getInfo() 
     {
          $cweb = $this->getPlatform()->getDatabase('configuration')->getKey('collectd-web');
-         $hostname = $this->getPlatform()->getDatabase('configuration')->getType('SystemName');
-         $domain = $this->getPlatform()->getDatabase('configuration')->getType('DomainName');
+         $host = explode(':',$_SERVER['HTTP_HOST']);
          return array(
-            'url' => "http://$hostname.$domain/".$cweb['alias']
+            'url' => "http://".$host[0]."/".$cweb['alias']."/"
          );
     } 
 }
