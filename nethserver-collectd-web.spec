@@ -1,7 +1,7 @@
 Summary: NethServer python web interface to collectd
 Name: nethserver-collectd-web
-Version: @@VERSION@@
-Release: @@RELEASE@@
+Version: 1.0.2
+Release: 1
 License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
