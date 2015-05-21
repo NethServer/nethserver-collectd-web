@@ -1,7 +1,7 @@
 Summary: NethServer python web interface to collectd
 Name: nethserver-collectd-web
 Version: 1.0.2
-Release: 1
+Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
@@ -9,10 +9,8 @@ URL: https://dev.nethesis.it/projects/%{name}
 
 BuildRequires: nethserver-devtools
 
-AutoReq: no
 Requires: nethserver-collectd, nethserver-httpd
 Requires: perl-CGI, perl-RRD-Simple
-Requires: nethserver-lib >= 1.0.3
 
 %description
 NethServer python web interface to collectd
@@ -21,25 +19,18 @@ See: http://collectdweb.appspot.com
 %prep
 %setup
 
-%post
-
-%preun
-
 %build
 perl createlinks
 
 %install
-rm -rf $RPM_BUILD_ROOT
-(cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
+rm -rf %{buildroot}
+(cd root   ; find . -depth -print | cpio -dump %{buildroot})
+%{genfilelist} %{buildroot} > %{version}-%{release}-filelist
 
-%{genfilelist} $RPM_BUILD_ROOT > e-smith-%{version}-filelist
-echo "%doc COPYING"          >> e-smith-%{version}-filelist
-
-%clean 
-rm -rf $RPM_BUILD_ROOT
-
-%files -f e-smith-%{version}-filelist
+%files -f %{version}-%{release}-filelist
 %defattr(-,root,root)
+%doc COPYING
+%dir %{_nseventsdir}/%{name}-update
 
 %changelog
 * Wed Feb 05 2014 Davide Principi <davide.principi@nethesis.it> - 1.0.2-1.ns6
