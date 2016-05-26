@@ -1,7 +1,7 @@
 Summary: NethServer python web interface to collectd
 Name: nethserver-collectd-web
-Version: 1.0.2
-Release: 1
+Version: 1.0.3
+Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Thu May 26 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.3-1
+- Access to graphs and reports from trusted network - Bug #3370 [NethServer]
+
 * Wed Feb 05 2014 Davide Principi <davide.principi@nethesis.it> - 1.0.2-1.ns6
 - Rebuild for 6.5 beta3
 
